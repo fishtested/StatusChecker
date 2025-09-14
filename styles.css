@@ -15,6 +15,8 @@
 
 
 body {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
     background-color: rgb(43, 43, 43);
     display: flex;
     flex-direction: column;
@@ -25,6 +27,12 @@ body {
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-size: 17px;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
 }
 
 #statusCards {
@@ -59,3 +67,4 @@ body {
 .label {
     font-weight: bold;
 }
+
