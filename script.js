@@ -38,8 +38,19 @@ function createCards(data) {
             value.textContent = f.value;
 
             if (f.label === 'Status') {
-                if (f.value === 'Online') value.classList.add('online');
-                else if (f.value === 'Offline') value.classList.add('offline');
+                if (f.value === 'Online') {
+                    value.classList.add('online');
+                    card.classList.add('online');
+                } else if (f.value === 'Offline') {
+                    value.classList.add('offline');
+                    card.classList.add('offline')
+                } else if (f.value === 'Active') {
+                    value.classList.add('online');
+                    card.classList.add('online')
+                } else if (f.value === 'Inactive') {
+                    value.classList.add('offline');
+                    card.classList.add('offline')
+                };
             }
 
             row.appendChild(label);
