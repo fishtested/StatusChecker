@@ -5,6 +5,15 @@
     color: #FF6666;
 }
 
+.card.online {
+    border-bottom: 3px solid #66FF66;
+}
+
+.card.offline {
+    border-bottom: 3px solid #FF6666;
+}
+
+
 body {
     background-color: rgb(43, 43, 43);
     display: flex;
