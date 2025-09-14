@@ -1,1 +1,1 @@
-# PingStats
+# StatusChecker
