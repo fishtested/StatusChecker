@@ -13,27 +13,31 @@
     border-bottom: 3px solid #FF6666;
 }
 
+* {
+    font-family: "Poppins", sans-serif;
+}
 
 body {
     opacity: 0;
     animation: fadeIn 1s forwards;
-    background-color: rgb(43, 43, 43);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    font-family: "Poppins", sans-serif;
+    background-color: #2b2b2b;
+    color: #fff;
     font-weight: 400;
     font-size: 17px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    min-height: 100vh;
 }
-
+  
 @keyframes fadeIn {
     to {
         opacity: 1;
     }
 }
+  
 
 #statusCards {
     display: flex;
@@ -47,14 +51,14 @@ body {
 }
   
 .card {
-    background: rgb(46, 46, 46);
+    background: #2e2e2e;
     border: 1px solid #444;
     border-radius: 10px;
     padding: 1rem;
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     color: #fff;
     flex: 1 1 200px;
-    max-width: 250px;
+    max-width: 225px;
     min-width: 180px;
 }
   
@@ -68,3 +72,31 @@ body {
     font-weight: bold;
 }
 
+#filter {
+    margin-bottom: 20px;
+    position: fixed;
+    top: 10px;
+    background: #2e2e2e;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    width: max-content;
+}
+  
+#filter button {
+    margin: 0 5px;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+    background: #444;
+    color: #fff;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 30px;
+    }
+}
