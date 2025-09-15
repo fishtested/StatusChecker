@@ -1,66 +1,79 @@
 function getStatus() {
     fetch('/status')
-    .then(response => response.json())
-    .then(data => {
-      createCards(data);
-    })
-    .catch(error => console.error('Error:', error));
+      .then(response => response.json())
+      .then(data => {
+        createCards(data);
+        filterCards('all');
+      });
 }
-
+  
 function createCards(data) {
-    const cards = document.getElementById('statusCards');
-    cards.innerHTML = '';
-
+    const container = document.getElementById('statusCards');
+    container.innerHTML = '';
   
     data.forEach(item => {
-        const card = document.createElement('div');
-        card.classList.add('card');
+      const card = document.createElement('div');
+      card.className = 'card';
+  
+    const fields = [
+        { label: 'Name', value: item.name },
+        { label: 'Host', value: item.host },
+        { label: 'Port', value: item.port },
+        { label: 'Service', value: item.service },
+        { label: 'Status', value: item.status }
+    ];
+  
+    fields.forEach(f => {
+        if (!f.value) return;
+        const row = document.createElement('div');
+        row.className = 'row';
+  
+        const label = document.createElement('span');
+        label.className = 'label';
+        label.textContent = f.label;
+  
+        const value = document.createElement('span');
+        value.textContent = f.value;
 
-        const fields = [
-            { label: 'Name', value: item.name},
-            { label: 'Host', value: item.host},
-            { label: 'Port', value: item.port},
-            { label: 'Service', value: item.service},
-            { label: 'Status', value: item.status}
-        ];
-
-        fields.forEach(f => {
-            if (!f.value) return;
-            const row = document.createElement('div');
-            row.classList.add('row');
-
-            const label = document.createElement('span');
-            label.classList.add('label');
-            label.textContent = f.label;
-
-            const value = document.createElement('span');
-            value.classList.add('value');
-            value.textContent = f.value;
-
-            if (f.label === 'Status') {
-                if (f.value === 'Online') {
-                    value.classList.add('online');
-                    card.classList.add('online');
-                } else if (f.value === 'Offline') {
-                    value.classList.add('offline');
-                    card.classList.add('offline')
-                } else if (f.value === 'Active') {
-                    value.classList.add('online');
-                    card.classList.add('online')
-                } else if (f.value === 'Inactive') {
-                    value.classList.add('offline');
-                    card.classList.add('offline')
-                };
+        if (f.label === 'Status') {
+            value.classList.add(f.value.toLowerCase());
+            if (f.value === 'Online' || f.value === 'Active') {
+                card.classList.add('active', 'online');
+                value.classList.add('online');
+            } else if (f.value === 'Offline' || f.value === 'Inactive') {
+                card.classList.add('inactive', 'offline');
+                value.classList.add('offline');
             }
+        }
 
-            row.appendChild(label);
-            row.appendChild(value);
-            card.appendChild(row);
-        });
-    cards.appendChild(card);
+        row.appendChild(label);
+        row.appendChild(value);
+        card.appendChild(row);
+    });
+  
+    container.appendChild(card);
     });
 }
   
-document.addEventListener("DOMContentLoaded", () => {
-    getStatus();
+function filterCards(type) {
+    const cards = document.querySelectorAll('#statusCards .card');
+    cards.forEach(card => {
+      if (type === 'all') {
+        card.style.display = 'block';
+      } else if (type === 'active') {
+        card.style.display = card.classList.contains('active') ? 'block' : 'none';
+      } else if (type === 'inactive') {
+        card.style.display = card.classList.contains('inactive') ? 'block' : 'none';
+      }
+    });
+}
+  
+document.getElementById('filter').addEventListener('click', e => {
+    const btn = e.target.closest('.filter-button');
+    if (!btn) return;
+    document.querySelectorAll('.filter-button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterCards(btn.dataset.filter);
 });
+  
+getStatus();
