@@ -4,6 +4,7 @@ function getStatus() {
       .then(data => {
         createCards(data);
         filterCards('all');
+        getLastUpdatedTime();
       });
 }
   
@@ -75,5 +76,19 @@ document.getElementById('filter').addEventListener('click', e => {
     btn.classList.add('active');
     filterCards(btn.dataset.filter);
 });
-  
+
+function getLastUpdatedTime() {
+    const lastUpdated = document.getElementById('lastUpdated');
+    const updated = new Date();
+    const monthNames = ["January", "February", "March", "April", "May", "June", 
+    "July", "August", "September", "October", "November", "December"];
+    const month = monthNames[updated.getMonth()];
+    const day = updated.getDate();
+    const year = updated.getFullYear();
+    const hours = String(updated.getHours()).padStart(2, '0');
+    const minutes = String(updated.getMinutes()).padStart(2, '0');
+    const seconds = String(updated.getSeconds()).padStart(2, '0');
+    lastUpdated.textContent = `Last updated: ${month} ${day}, ${year} at ${hours}:${minutes}:${seconds}`;
+}
+
 getStatus();
