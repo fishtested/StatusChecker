@@ -4,7 +4,7 @@
 ## How it works
 - Services, TCP ports and systemd services are listed in a PHP script (status/index.php)
 - On page load, TCP requests are sent to the ports and checks if it's online. If successful, it's "Online". If not, it's "Offline".
-- Systemd services are checked with the "systemctl is-active <service>" command on the server and returns "active" or "inactive". The PHP script must have permissions to run systemctl.
+- Systemd services are checked with the "systemctl is-active" command with the service name on the server and returns "active" or "inactive". The PHP script must have permissions to run systemctl.
 - The PHP script outputs responses and service information in JSON format, like an API.
 - The JavaScript file (script.js) fetches the data and displays it in human-readable cards.
 
