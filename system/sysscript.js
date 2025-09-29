@@ -22,12 +22,21 @@ function createCards(data) {
     };
 
     const labels = {
-        load1: 'Load',
-        usage1: 'CPU 1m %',
+        load1: '1m Load',
+        load5: '5m Load',
+        usage1: 'Used',
         availableGB: 'Available',
-        usedPercent: 'Used %',
+        usedPercent: 'Used',
         totalGB: 'Total',
         freeGB: 'Available',
+    };
+
+    const end = {
+        usage1: '%',
+        usedPercent: '%',
+        totalGB: ' GB',
+        availableGB: ' GB',
+        freeGB: ' GB'
     };
 
     Object.entries(groups).forEach(([groupName, groupData]) => {
@@ -47,7 +56,7 @@ function createCards(data) {
             label.textContent = labels[key] || key;
 
             const val = document.createElement('span');
-            val.textContent = value;
+            val.textContent = value + (end[key] || '');
 
             row.appendChild(label);
             row.appendChild(val);
