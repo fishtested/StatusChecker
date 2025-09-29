@@ -4,14 +4,12 @@ header('Content-Type: application/json');
 $load = sys_getloadavg();
 $cpu1 = $load[0];
 $cpu5 = $load[1];
-$cpu15 = $load[2];
 $totalCPU = (int)trim(shell_exec("nproc"));
 $ramInfo = file_get_contents("/proc/meminfo");
 $disk = disk_total_space("/");
 $diskFree = disk_free_space("/");
 $diskUsed = $disk - $diskFree;
 $diskTotalGig = $disk / (1024 * 1024 * 1024);
-$diskUsedGig = $diskUsed / (1024 * 1024 * 1024);
 $diskFreeGig = $diskFree / (1024 * 1024 * 1024);
 $diskUsagePercent = round(($diskUsed / $disk) * 100, 2);
 
@@ -32,26 +30,26 @@ if ($memTotal === null || $availMemory === null) {
 }
 
 
-$memTotalGig = $memTotal / 1024;
-$availMemoryGig = $availMemory / 1024;
+$memTotalGig = round($memTotal / (1024 * 1024), 2);
+$availMemoryGig = round($availMemory / (1024 * 1024), 2);
 $ramPercent = round((1 - $availMemory / $memTotal) * 100, 2);
 $cpuUsagePercent1 = ($cpu1 / $totalCPU) * 100;
-$cpuUsagePercent5 = ($cpu5 / $totalCPU) * 100;
-$cpuUsagePercent15 = ($cpu15 / $totalCPU) * 100;
 
 echo json_encode([
-    "cpu" => round($cpu1, 2),
-    "cpu5" => round($cpu5, 2),
-    "cpu15" => round($cpu15, 2),
-    "memTotal" => round($memTotalGig, 2),
-    "availMemory" => round($availMemoryGig, 2),
-    "ramPercent" => $ramPercent,
-    "cpuPercent1" => round($cpuUsagePercent1, 1),
-    "cpuPercent5" => round($cpuUsagePercent5, 1),
-    "cpuPercent15" => round($cpuUsagePercent15, 1),
-    "diskTotal" => round($diskTotalGig, 2),
-    "diskUsed" => round($diskUsedGig, 2),
-    "diskFree" => round($diskFreeGig, 2),
-    "diskUsagePercent" => $diskUsagePercent
+    "cpu" => [
+        "load1" => round($cpu1, 2),
+        "load5" => round($cpu5, 2),
+        "usage1" => round($cpuUsagePercent1, 1),
+    ],
+    "ram" => [
+        "totalGB" => $memTotalGig,
+        "availableGB" => $availMemoryGig,
+        "usedPercent" => $ramPercent
+    ],
+    "disk" => [
+        "totalGB" => round($diskTotalGig, 2),
+        "freeGB" => round($diskFreeGig, 2),
+        "usedPercent" => $diskUsagePercent
+    ]
 ], JSON_PRETTY_PRINT);
-?>
+
